@@ -13,16 +13,16 @@ class Solution {
         int end=n-1;
         while(st<=end){
             int mid=st+(end-st)/2;
-            if(arr[mid]<=k && arr[mid+1]>k){
+            if(arr[mid]==k){
                 return mid;
-            }
-            if(arr[mid]>k){
-                end=mid-1;
-            }else{
+            }else if(arr[mid]<k){
                 st=mid+1;
+            }else{
+                end=mid-1;
             }
         }
-        return -1;
+        
+        return st-1;
         
     }
 };
