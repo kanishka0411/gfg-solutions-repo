@@ -9,18 +9,16 @@ using namespace std;
 class Solution {
   public:
     int floorSqrt(int n) {
-        int st=1;
-        int end=n;
-        while(st<=end){
-            long long mid=st+(end-st)/2;
-            long long val=mid*mid;
+        int ans=0;
+        for(int i=1;i<=n;i++){
+            long long val=i*i;
             if(val<=n){
-                st=mid+1;
+                ans=i;
             }else{
-                end=mid-1;
+                break;
             }
         }
-        return end;
+        return ans;
     }
 };
 
