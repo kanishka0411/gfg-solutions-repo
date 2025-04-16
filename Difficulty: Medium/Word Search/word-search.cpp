@@ -4,39 +4,48 @@ using namespace std;
 
 
 // } Driver Code Ends
+
 class Solution {
   public:
-   bool dfs(vector<vector<char>>& mat, string& word, int i, int j, int index) {
-    if (index == word.length()) {
-        return true;
+  
+    bool func(vector<vector<char>>&mat,string &word,int i,int j,int ind){
+        if(ind==word.size()){
+            return true;
+        }
+        
+        if(i<0 || j<0 || i>=mat.size() || j>=mat[0].size() || mat[i][j]!=word[ind]){
+            return false;
+        }
+        bool ans=false;
+        char x=mat[i][j];
+        mat[i][j]=' ';
+        
+        ans|=func(mat,word,i+1,j,ind+1);
+        ans|=func(mat,word,i-1,j,ind+1);
+        ans|= func(mat,word,i,j+1,ind+1);
+        ans|=func(mat,word,i,j-1,ind+1);
+        
+        mat[i][j]=x;
+        
+        return ans;
+        
     }
-    if (i < 0 || i >= mat.size() || j < 0 || j >= mat[0].size() || mat[i][j] != word[index]) {
-        return false;
-    }
-    char temp = mat[i][j];
-    mat[i][j] = '#';
-    bool found = dfs(mat, word, i + 1, j, index + 1) ||
-                 dfs(mat, word, i - 1, j, index + 1) ||
-                 dfs(mat, word, i, j + 1, index + 1) ||
-                 dfs(mat, word, i, j - 1, index + 1);
-    mat[i][j] = temp;
-
-    return found;
-   }
     bool isWordExist(vector<vector<char>>& mat, string& word) {
-        int n = mat.size();
-    if (n == 0) return false;
-    int m = mat[0].size();
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < m; j++) {
-            if (mat[i][j] == word[0] && dfs(mat, word, i, j, 0)) {
-                return true;
+        int n=mat.size();
+        int m=mat[0].size();
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(mat[i][j]==word[0]){
+                    if(func(mat,word,i,j,0)){
+                        return true;
+                    }
+                }
             }
         }
-    }
-    return false;
+        return false;
     }
 };
+
 
 //{ Driver Code Starts.
 int main() {
