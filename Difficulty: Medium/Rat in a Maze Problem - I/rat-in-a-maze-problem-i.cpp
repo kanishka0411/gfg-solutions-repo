@@ -9,29 +9,31 @@ using namespace std;
 
 class Solution {
   public:
-    void func(vector<vector<int>>&mat,vector<string>&ans,int i,int j,string s){
-        int n=mat.size();
-        if(i==n-1 && j==n-1){
-            ans.push_back(s);
+  
+    void func(vector<vector<int>>&maze,set<string>&ans,string s,int x,int y,int n){
+        if(x==n-1 && y==n-1){
+            ans.insert(s);
             return;
         }
+        if(x>=n || y>=n || x<0 || y<0 || maze[x][y]==0 || maze[x][y]==-1){
+            return;
+        }
+        int z=maze[x][y];
+        maze[x][y]=-1;
+        func(maze,ans,s+'D',x+1,y,n);
+        func(maze,ans,s+'U',x-1,y,n);
+        func(maze,ans,s+'R',x,y+1,n);
+        func(maze,ans,s+'L',x,y-1,n);
+        maze[x][y]=z;
         
-        if(i<0 || j<0 || i>=n || j>=n || mat[i][j]==0 || mat[i][j]==' '){
-            return;
-        }
-        int x=mat[i][j];
-        mat[i][j]=' ';
-        func(mat,ans,i+1,j,s+'D');
-        func(mat,ans,i-1,j,s+'U');
-        func(mat,ans,i,j+1,s+'R');
-        func(mat,ans,i,j-1,s+'L');
-        mat[i][j]=x;
     }
-    vector<string> findPath(vector<vector<int>> &mat) {
-        vector<string>ans;
+   
+    vector<string> ratInMaze(vector<vector<int>>& maze) {
+        int n=maze.size();
+        set<string>ans;
         string s;
-        func(mat,ans,0,0,s);
-        return ans;
+        func(maze,ans,s,0,0,n);
+        return vector<string>(ans.begin(),ans.end());
         
     }
 };
@@ -45,46 +47,20 @@ int main() {
     cin >> t;
     cin.ignore();
     while (t--) {
-        string input;
-        getline(cin, input);
-        vector<vector<int>> mat;
-        string innerArray;
-        bool isInsideArray = false;
+        int n;
+        cin >> n;
+        cin.ignore();
 
-        for (char c : input) {
-            if (c == '[') {
-                if (isInsideArray) {
-                    innerArray.clear();
-                }
-                isInsideArray = true;
-            } else if (c == ']') {
-                if (isInsideArray && !innerArray.empty()) {
-                    vector<int> row;
-                    stringstream ss(innerArray);
-                    int num;
-
-                    while (ss >> num) {
-                        row.push_back(num);
-                        if (ss.peek() == ',')
-                            ss.ignore();
-                        while (isspace(ss.peek()))
-                            ss.ignore();
-                    }
-
-                    mat.push_back(row);
-                    innerArray.clear();
-                }
-                isInsideArray = false;
-            } else if (isInsideArray) {
-                if (!isspace(c)) {
-                    innerArray += c;
-                }
+        vector<vector<int>> mat(n, vector<int>(n));
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                cin >> mat[i][j];
             }
         }
 
         Solution obj;
-        vector<string> result = obj.findPath(mat);
-        sort(result.begin(), result.end());
+        vector<string> result = obj.ratInMaze(mat);
+        // sort(result.begin(), result.end());
 
         if (result.empty())
             cout << "[]";
