@@ -11,10 +11,6 @@ public:
         right = NULL;
     }
 };
-
-Node* newNode(int val) {
-    return new Node(val);
-}
 */
 
 class Solution {
@@ -23,9 +19,9 @@ class Solution {
         if(root==nullptr) return 0;
         int lh=dfs(root->left,maxi);
         int rh=dfs(root->right,maxi);
+        
         maxi=max(maxi,lh+rh);
         return 1+max(lh,rh);
-        
     }
     int diameter(Node* root) {
         int maxi=0;
