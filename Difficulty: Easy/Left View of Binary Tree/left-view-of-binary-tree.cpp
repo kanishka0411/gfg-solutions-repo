@@ -15,39 +15,19 @@ public:
 
 class Solution {
   public:
-    vector<vector<int>>levelTraversal(Node *root){
- 
-        vector<vector<int>>ans;
-        if(!root) return ans;
-        queue<Node*>q;
-        q.push({root});
-        while(!q.empty()){
-            int size=q.size();
-            vector<int>level;
-            for(int i=0;i<size;i++){
-                Node *top=q.front();
-                level.push_back(top->data);
-                q.pop();
-                
-                if(top->left){
-                    q.push(top->left);
-                }
-                
-                if(top->right){
-                    q.push(top->right);
-                }
-                
-            }
-            ans.push_back(level);
+    void rec(Node *root,int level,vector<int>&res){
+        if(!root) return;
+        if(level==res.size()){
+            res.push_back(root->data);
         }
+        
+        rec(root->left,level+1,res);
+        rec(root->right,level+1,res);
     }
     vector<int> leftView(Node *root) {
-       vector<vector<int>>left=levelTraversal(root);
-       vector<int>ans;
-       for(auto level:left){
-           ans.push_back(level.front());
-       }
-       return ans;
+       vector<int>res;
+       rec(root,0,res);
+       return res;
         
     }
 };
