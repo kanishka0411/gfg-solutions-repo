@@ -1,11 +1,9 @@
-// User function template for C++
-
 class Solution {
   public:
     int longestKSubstr(string &s, int k) {
         int n=s.size();
-        unordered_map<char,int>mpp;
         int maxlen=-1;
+        unordered_map<int,int>mpp;
         int l=0;
         int r=0;
         while(r<n){
@@ -26,19 +24,3 @@ class Solution {
         
     }
 };
-
-
-
-
-
-// for(int i=0;i<n;i++){
-            
-//         //     for(int j=i;j<n;j++){
-//         //         mpp[s[j]]++;
-//         //         if(mpp.size()==k){
-//         //             maxlen=max(maxlen,j-i+1);
-//         //         }else if(mpp.size()>k){
-        //             break;
-        //         }
-        //     }
-        // }
