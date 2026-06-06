@@ -1,20 +1,35 @@
+/*
+Definition for Node
+class Node {
+  public:
+    int data;
+    Node* left;
+    Node* right;
+
+    Node(int val) {
+        data = val;
+        left = right = nullptr;
+    }
+};
+*/
+
 class Solution {
   public:
     int findCeil(Node* root, int x) {
         int ceil=-1;
-        while(root!=nullptr){
-            if(root->data==x){
-                ceil=root->data;
+        Node *curr=root;
+        while(curr!=nullptr){
+            if(curr->data==x){
+                ceil=curr->data;
                 break;
             }
-            if(root->data>x){
-                ceil=root->data;
-                root=root->left;
+            if(curr->data>x){
+                ceil=curr->data;
+                curr=curr->left;
+            }else{
+                curr=curr->right;
             }
-            else root=root->right;
         }
         return ceil;
-        
-        
     }
 };
